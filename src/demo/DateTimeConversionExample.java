@@ -92,6 +92,27 @@ public class DateTimeConversionExample {
         // Trái ngược với ví dụ trên, ở đây .withZoneSameLocal(ZoneId) sẽ giữa nguyên tgian tuong doi ("sameLocal")
         // và gắn vào đó một timezone khác, do đó giá trị tuyệt đối (moment) của newYearEveHCM và newYearEveFlorida hoàn toàn khác nhau.
 
+        // -------------
+        System.out.println("-------------------");
+
+
+        String dateStr1 = "2022-02-08T08:00:00";
+        LocalDateTime lcDateTime1 = LocalDateTime.parse(dateStr1);
+        System.out.println(lcDateTime1);    // 2022-02-08T08:00
+        LocalDateTime lcDateTime2 = lcDateTime1.plusDays(100);
+        System.out.println(lcDateTime2);    // 2022-05-19T08:00
+
+        ZoneId berlinZone = ZoneId.of("Europe/Berlin");
+        ZonedDateTime zonedDateTime1 = lcDateTime1.atZone(berlinZone);
+        System.out.println(zonedDateTime1);                             // 2022-02-08T08:00+01:00[Europe/Berlin]        // in winter
+        System.out.println(zonedDateTime1.toInstant());                 // 2022-02-08T07:00:00Z
+        System.out.println(zonedDateTime1.toEpochSecond());             // 1644303600
+        ZonedDateTime zonedDateTime2 = zonedDateTime1.plusDays(100);
+        System.out.println(zonedDateTime2);                             // 2022-05-19T08:00+02:00[Europe/Berlin]        // in summer DST daylight saving time
+        System.out.println(zonedDateTime2.toInstant());                 // 2022-05-19T06:00:00Z
+        System.out.println(zonedDateTime2.toEpochSecond());             // 1652940000
+
+
     }
 
     // Kiểm tra xem thời gian của báo cáo có nằm giữa 2 khoảng instant hay không
